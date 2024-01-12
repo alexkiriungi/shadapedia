@@ -133,6 +133,47 @@ const Navbar = () => {
                             <Close />
                         </IconButton>
                     </Box>
+
+                    {/* MENU ITEMS */}
+                    <FlexBetween display="flex" flexDirection="column" justifyContent="center" alignItems="center" gap="3rem">
+                        <IconButton 
+                            onClick={() => dispatch(setMode())}
+                            sx={{ fontSize: "25px" }}
+                        >
+                            {theme.palette.mode === "dark" ? (
+                                <DarkMode sx={{ fontSize: "25px"}} />
+                            ) : (
+                                <LightMode sx={{ color:dark, fontSize: "25px"}} />
+                            )}
+                        </IconButton>
+                        <Message sx={{ fontSize: "25px"}} />
+                        <Notifications sx={{ fontSize: "25px"}} />
+                        <Help sx={{ fontSize: "25px"}} />
+                        <FormControl variant="standard" value={fullName}>
+                            <Select
+                            value={fullname}
+                            sx={{
+                                backgroundColor: neutralLight,
+                                width: "150px",
+                                borderRadius: "0.25rem",
+                                padding: "0.25rem 1rem",
+                                "& .MuiSvgIcon-root": {
+                                    paddingRight: "0.25rem",
+                                    width: "3rem"
+                                },
+                                "& .MuiSelect-select:focus": {
+                                    backgroundColor: neutralLight
+                                }
+                            }}
+                            input={<InputBase />}
+                            >
+                                <MenuItem value={fullName}>
+                                    <Typography>{fullName}</Typography>
+                                </MenuItem>
+                                <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
+                            </Select>
+                        </FormControl>
+            </FlexBetween>
                 </Box>
             )}
         </FlexBetween>
