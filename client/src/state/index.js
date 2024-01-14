@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // AVAILABLE STATE THROUGHOUT THE WEBAPP
 const initialState = {
     mode: "light",
-    user: null,
+    user: "",
     token: null,
     posts: [],
 };

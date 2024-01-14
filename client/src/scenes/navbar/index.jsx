@@ -39,7 +39,8 @@ const Navbar = () => {
     const primaryLight = theme.palette.primary.light;
     const alt = theme.palette.background.alt;
 
-    const fullName = `${user.firstName} ${user.lastName}`;
+    // const fullName = `${user.firstName} ${user.lastName}`;
+    const fullName = "Xander Max";
 
     return (
         <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -82,7 +83,7 @@ const Navbar = () => {
                 <Help sx={{ fontSize: "25px"}} />
                 <FormControl variant="standard" value={fullName}>
                     <Select
-                    value={fullname}
+                    value={fullName}
                     sx={{
                         backgroundColor: neutralLight,
                         width: "150px",
@@ -151,7 +152,7 @@ const Navbar = () => {
                         <Help sx={{ fontSize: "25px"}} />
                         <FormControl variant="standard" value={fullName}>
                             <Select
-                            value={fullname}
+                            value={fullName}
                             sx={{
                                 backgroundColor: neutralLight,
                                 width: "150px",
