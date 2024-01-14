@@ -11,7 +11,7 @@ import {
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { Form, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
@@ -32,7 +32,7 @@ const loginSchema = yup.object().shape({
     password: yup.string().required("required"),
 });
 
-const initialValueRegister = {
+const initialValuesRegister = {
     firstName: "",
     lastName: "",
     email: "",
@@ -42,7 +42,7 @@ const initialValueRegister = {
     picture: "",
 }
 
-const initialValueLogin = {
+const initialValuesLogin = {
     email: "",
     password: "",
 }
@@ -79,15 +79,37 @@ const Form = () => {
         }
     };
 
+    const login = async (values, onSubmitProps) => {
+        const loggedInResponse = await fetch(
+            "http://localhost:3001/auth/login",
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json "},
+                body: JSON.stringify(values),
+            }
+        );
+        const loggedIn = await loggedInResponse.json();
+        onSubmitProps.resetForm();
+        if (loggedIn) {
+            dispatch(
+                setLogin({
+                    user: loggedIn.user,
+                    token: loggedIn.token,
+                })
+            );
+            navigate("/home");
+        }
+    };
+
     const handleFormSubmit = async ( values, onSubmitProps ) => {
-        if (isLogin) await loginSchema(values, onSubmitProps);
-        if (isRegister) await registerSchema(values, onSubmitProps);
+        if (isLogin) await login(values, onSubmitProps);
+        if (isRegister) await register(values, onSubmitProps);
     };
 
     return (
         <Formik
             onSubmit={handleFormSubmit}
-            initialValues={isLogin ? initialValueLogin : initialValueRegister}
+            initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
             validationSchema={isLogin ? loginSchema : registerSchema}
         >
             {({
@@ -97,7 +119,7 @@ const Form = () => {
                 handleBlur,
                 handleChange,
                 handleSubmit,
-                setFiledValue,
+                setFieldValue,
                 resetForm,
             }) => (
                 <form onSubmit={handleSubmit}>
@@ -160,7 +182,7 @@ const Form = () => {
                                     <Dropzone
                                         acceptedFiles=".jpg,.jpeg,.png"
                                         multiple={false}
-                                        onDrop={(acceptedFiles) => setFiledValue("picture", acceptedFiles[0])
+                                        onDrop={(acceptedFiles) => setFieldValue("picture", acceptedFiles[0])
                                     }
                                     >
                                         {({ getRootProps, getInputProps }) => (
@@ -168,7 +190,7 @@ const Form = () => {
                                                 {...getRootProps()}
                                                 border={`2px dashed ${palette.primary.main}`}
                                                 padding="1rem"
-                                                sx={{ "&:hover": { cursor: pointer }}}
+                                                sx={{ "&:hover": { cursor: "pointer" }}}
                                             >
                                                 <input {...getInputProps()} />
                                                 {!values.picture ? (
@@ -248,7 +270,5 @@ const Form = () => {
         </Formik>
     )
 }
-
-
 
 export default Form;

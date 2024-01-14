@@ -29,7 +29,7 @@ const LoginPage = () => {
             <Typography fontWeight="500" variant="h5" sx={{ marginBottom: "1.5rem"}}>
                 Welcome to Shadapedia, the Social Media for Weirdos!
             </Typography>
-
+            <Form />
         </Box>
     </Box>
 };
