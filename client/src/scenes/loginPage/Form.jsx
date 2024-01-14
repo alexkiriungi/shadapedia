@@ -56,7 +56,33 @@ const Form = () => {
     const isLogin = pageType === "login";
     const isRegister = pageType === "register";
 
-    const handleFormSubmit = async ( values, onSubmitProps ) => {};
+    const register = async (values, onSubmitProps) => {
+        // this allows us to send form info with image
+        const formData = new FormData();
+        for (let value in values) {
+            formData.append(value, values[value]);
+        }
+        formData.append('picturePath', values.picture.name);
+
+        const savedUserResponse = await fetch(
+            "http://localhost:3001/auth/register",
+            {
+                method: "POST",
+                body: formData,
+            }
+        );
+        const savedUser = await savedUserResponse.json();
+        onSubmitProps.resetForm();
+
+        if (savedUser) {
+            setPageType("login");
+        }
+    };
+
+    const handleFormSubmit = async ( values, onSubmitProps ) => {
+        if (isLogin) await loginSchema(values, onSubmitProps);
+        if (isRegister) await registerSchema(values, onSubmitProps);
+    };
 
     return (
         <Formik
@@ -184,6 +210,39 @@ const Form = () => {
                     </Box>
 
                     {/* BUTTONS SECTION */}
+                    <Box>
+                        <Button
+                            fullWidth
+                            type="submit"
+                            sx={{
+                                margin: "2rem 0",
+                                padding: "1rem",
+                                backgroundColor: palette.primary.main,
+                                color: palette.background.alt,
+                                "&:hover": { color: palette.primary.main },
+                            }}
+                        >
+                            {isLogin ? "LOGIN" : "REGISTER"}
+                        </Button>
+                        <Typography
+                            onClick={() => {
+                                setPageType(isLogin ? "register" : "login");
+                                resetForm();
+                            }}
+                            sx={{
+                                textDecoration: "underline",
+                                color: palette.primary.main,
+                                "&:hover" : {
+                                    cursor: "pointer",
+                                    color: palette.primary.light,
+                                }
+                            }}
+                        >
+                            {isLogin 
+                            ? "Don't have an account? Sign Up here." 
+                            : "Already have an account? Login here."}
+                        </Typography>
+                    </Box>
                 </form>
             )}
         </Formik>
