@@ -5,7 +5,7 @@ import {
     GifBoxOutlined,
     ImageOutlined,
     MicOutlined,
-    MoreHorizOutlied,
+    MoreHorizOutlined,
 } from "@mui/icons-material";
 import { 
     Box, 
@@ -149,7 +149,7 @@ const MyPostWidget = ({ picturePath }) => {
                         </FlexBetween>
                     </>
                 ) : (<FlexBetween gap="0.25rem">
-                        <MoreHorizOutlied sx={{ color: mediumMain }} />
+                        <MoreHorizOutlined sx={{ color: mediumMain }} />
                     </FlexBetween>
                     )}
 

@@ -1,7 +1,7 @@
 import {
     ManageAccountsOutlined,
     EditOutlined,
-    LocationOutlined,
+    LocationOnOutlined,
     WorkOutlineOutlined,
 } from "@mui/icons-material";
 import { Box, Typography, Divider, useTheme } from "@mui/material";
@@ -32,8 +32,7 @@ const UserWidget = ({ userId, picturePath }) => {
 
     useEffect(() => {
         getUser();
-
-    }, []) 
+    }); 
     if (!user) {
         return null;
     }
@@ -82,7 +81,7 @@ const UserWidget = ({ userId, picturePath }) => {
                 {/* SECOND ROW */}
                 <Box padding="1rem 0">
                     <Box display="flex" alignItems="center" gap="1rem" marginBottom="0.5rem">
-                        <LocationOutlined fontSize="large" sx={{ color: main}} />
+                        <LocationOnOutlined fontSize="large" sx={{ color: main}} />
                         <Typography color={medium}>{location}</Typography>
                     </Box>
                     <Box display="flex" alignItems="center" gap="1rem">
