@@ -3,7 +3,6 @@ import {
     Box,
     Button,
     TextField,
-    UseMediaQuery,
     Typography,
     useTheme,
     useMediaQuery
@@ -268,7 +267,7 @@ const Form = () => {
                 </form>
             )}
         </Formik>
-    )
+    );
 };
 
 export default Form;
