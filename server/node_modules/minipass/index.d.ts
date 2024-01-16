@@ -1,85 +1,54 @@
 /// <reference types="node" />
-
-// Note: marking anything protected or private in the exported
-// class will limit Minipass's ability to be used as the base
-// for mixin classes.
 import { EventEmitter } from 'events'
 import { Stream } from 'stream'
 
-export namespace Minipass {
-  export type Encoding = BufferEncoding | 'buffer' | null
+export type Encoding = BufferEncoding | 'buffer' | null
 
-  export interface Writable extends EventEmitter {
-    end(): any
-    write(chunk: any, ...args: any[]): any
-  }
-
-  export interface Readable extends EventEmitter {
-    pause(): any
-    resume(): any
-    pipe(): any
-  }
-
-  export type DualIterable<T> = Iterable<T> & AsyncIterable<T>
-
-  export type ContiguousData =
-    | Buffer
-    | ArrayBufferLike
-    | ArrayBufferView
-    | string
-
-  export type BufferOrString = Buffer | string
-
-  export interface SharedOptions {
-    async?: boolean
-    signal?: AbortSignal
-  }
-
-  export interface StringOptions extends SharedOptions {
-    encoding: BufferEncoding
-    objectMode?: boolean
-  }
-
-  export interface BufferOptions extends SharedOptions {
-    encoding?: null | 'buffer'
-    objectMode?: boolean
-  }
-
-  export interface ObjectModeOptions extends SharedOptions {
-    objectMode: true
-  }
-
-  export interface PipeOptions {
-    end?: boolean
-    proxyErrors?: boolean
-  }
-
-  export type Options<T> = T extends string
-    ? StringOptions
-    : T extends Buffer
-    ? BufferOptions
-    : ObjectModeOptions
+interface Writable extends EventEmitter {
+  end(): any
+  write(chunk: any, ...args: any[]): any
 }
 
-export class Minipass<
+interface Readable extends EventEmitter {
+  pause(): any
+  resume(): any
+  pipe(): any
+}
+
+interface Pipe<R, W> {
+  src: Minipass<R, W>
+  dest: Writable
+  opts: PipeOptions
+}
+
+type DualIterable<T> = Iterable<T> & AsyncIterable<T>
+
+type ContiguousData = Buffer | ArrayBufferLike | ArrayBufferView | string
+
+type BufferOrString = Buffer | string
+
+export default class Minipass<
     RType extends any = Buffer,
-    WType extends any = RType extends Minipass.BufferOrString
-      ? Minipass.ContiguousData
-      : RType
+    WType extends any = RType extends BufferOrString ? ContiguousData : RType
   >
   extends Stream
-  implements Minipass.DualIterable<RType>
+  implements DualIterable<RType>
 {
-  static isStream(stream: any): stream is Minipass.Readable | Minipass.Writable
+  static isStream(stream: any): stream is Readable | Writable
 
   readonly bufferLength: number
   readonly flowing: boolean
   readonly writable: boolean
   readonly readable: boolean
-  readonly aborted: boolean
   readonly paused: boolean
   readonly emittedEnd: boolean
   readonly destroyed: boolean
+
+  /**
+   * Not technically private or readonly, but not safe to mutate.
+   */
+  private readonly buffer: RType[]
+  private readonly pipes: Pipe<RType, WType>[]
 
   /**
    * Technically writable, but mutating it can change the type,
@@ -101,31 +70,31 @@ export class Minipass<
    * TypeScript does not provide many options for changing the type of
    * an object at run-time, which is what changing the encoding does.
    */
-  readonly encoding: Minipass.Encoding
+  readonly encoding: Encoding
   // setEncoding(encoding: Encoding): void
 
   // Options required if not reading buffers
   constructor(
     ...args: RType extends Buffer
-      ? [] | [Minipass.Options<RType>]
-      : [Minipass.Options<RType>]
+      ? [] | [Options<RType>]
+      : [Options<RType>]
   )
 
   write(chunk: WType, cb?: () => void): boolean
-  write(chunk: WType, encoding?: Minipass.Encoding, cb?: () => void): boolean
+  write(chunk: WType, encoding?: Encoding, cb?: () => void): boolean
   read(size?: number): RType
   end(cb?: () => void): this
   end(chunk: any, cb?: () => void): this
-  end(chunk: any, encoding?: Minipass.Encoding, cb?: () => void): this
+  end(chunk: any, encoding?: Encoding, cb?: () => void): this
   pause(): void
   resume(): void
   promise(): Promise<void>
   collect(): Promise<RType[]>
 
-  concat(): RType extends Minipass.BufferOrString ? Promise<RType> : never
+  concat(): RType extends BufferOrString ? Promise<RType> : never
   destroy(er?: any): void
-  pipe<W extends Minipass.Writable>(dest: W, opts?: Minipass.PipeOptions): W
-  unpipe<W extends Minipass.Writable>(dest: W): void
+  pipe<W extends Writable>(dest: W, opts?: PipeOptions): W
+  unpipe<W extends Writable>(dest: W): void
 
   /**
    * alias for on()
@@ -147,6 +116,34 @@ export class Minipass<
     listener: () => any
   ): this
 
-  [Symbol.iterator](): Generator<RType, void, void>
-  [Symbol.asyncIterator](): AsyncGenerator<RType, void, void>
+  [Symbol.iterator](): Iterator<RType>
+  [Symbol.asyncIterator](): AsyncIterator<RType>
 }
+
+interface StringOptions {
+  encoding: BufferEncoding
+  objectMode?: boolean
+  async?: boolean
+}
+
+interface BufferOptions {
+  encoding?: null | 'buffer'
+  objectMode?: boolean
+  async?: boolean
+}
+
+interface ObjectModeOptions {
+  objectMode: true
+  async?: boolean
+}
+
+export declare interface PipeOptions {
+  end?: boolean
+  proxyErrors?: boolean
+}
+
+export declare type Options<T> = T extends string
+  ? StringOptions
+  : T extends Buffer
+  ? BufferOptions
+  : ObjectModeOptions
