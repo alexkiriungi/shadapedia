@@ -7,7 +7,7 @@ import multer from 'multer';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
-import { fileURLToPath } from 'url'; // proper setup paths 
+import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
 import postRoutes from './routes/posts.js';
@@ -39,7 +39,7 @@ const storage = multer.diskStorage({
     },
     filename: function(req, file, cb) {
         cb(null, file.originalname);
-    }
+    },
 });
 const upload = multer({ storage });
 
