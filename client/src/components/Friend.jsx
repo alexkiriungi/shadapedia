@@ -75,7 +75,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
                 )}
             </IconButton>
         </FlexBetween>
-    )
+    );
 };
 
 export default Friend;
