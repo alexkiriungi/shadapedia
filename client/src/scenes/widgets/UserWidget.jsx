@@ -32,7 +32,7 @@ const UserWidget = ({ userId, picturePath }) => {
 
     useEffect(() => {
         getUser();
-    }); 
+    });
     if (!user) {
         return null;
     }
@@ -67,7 +67,8 @@ const UserWidget = ({ userId, picturePath }) => {
                                     color: palette.primary.light,
                                     cursor: "pointer"
                                 }
-                            }}>
+                            }}
+                            >
                                 { firstName} {lastName}
                             </Typography>
                             <Typography color={medium}>{friends.length} friends</Typography>
