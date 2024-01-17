@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 
 const MyPostWidget = ({ picturePath }) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); // eslint-disable-next-line 
     const [isImage, setIsImage] = useState(false);
     const [image, setImage] = useState(null);
     const [post, setPost] = useState("");
@@ -166,7 +166,7 @@ const MyPostWidget = ({ picturePath }) => {
                     </Button>
             </FlexBetween>
         </WidgetWrapper>
-    )
+    );
 };
 
 export default MyPostWidget;

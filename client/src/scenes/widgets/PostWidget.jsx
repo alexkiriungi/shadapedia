@@ -104,7 +104,7 @@ const PostWidget = ({
                 </Box>
             )}
         </WidgetWrapper>
-    )
+    );
 };
 
 export default PostWidget;

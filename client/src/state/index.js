@@ -1,4 +1,3 @@
-import usePagination from "@mui/material/usePagination/usePagination";
 import { createSlice } from "@reduxjs/toolkit";
 
 // AVAILABLE STATE THROUGHOUT THE WEBAPP
@@ -40,8 +39,8 @@ export const authSlice = createSlice({
                 return post;
             });
             state.posts = updatedPosts;
-        }
-    }
+        },
+    },
 });
 
 export const { setMode, setLogin, setLogout, setFriends, setPost, setPosts } = authSlice.actions;

@@ -32,7 +32,7 @@ const AdvertWidget= () => {
                 help a brethren...
             </Typography>
         </WidgetWrapper>
-    )
-}
+    );
+};
 
 export default AdvertWidget;

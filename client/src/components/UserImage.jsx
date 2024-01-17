@@ -11,7 +11,7 @@ const UserImage = ({ image, size="60px" }) => {
                 src={`http://localhost:3001/assets/${image}`}
             />
         </Box>
-    )
-}
+    );
+};
 
 export default UserImage;

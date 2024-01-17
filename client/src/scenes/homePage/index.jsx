@@ -10,7 +10,7 @@ import FriendListWidget from "scenes/widgets/FriendListWidget";
 const HomePage = () => {
     const isNonMobileScreens = useMediaQuery("(min-width: 100px)");
     const { _id, picturePath } = useSelector((state) => state.user);
-    return <Box>
+    return (<Box>
         <Navbar />
         <Box
             width="100%"
@@ -36,6 +36,7 @@ const HomePage = () => {
                 </Box>)}
         </Box>
     </Box>
-}
+    );
+};
 
 export default HomePage;
