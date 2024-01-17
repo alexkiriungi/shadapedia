@@ -39,12 +39,12 @@ const initialValuesRegister = {
     location: "",
     occupation: "",
     picture: "",
-}
+};
 
 const initialValuesLogin = {
     email: "",
     password: "",
-}
+};
 
 const Form = () => {
     const [pageType, setPageType] = useState("login");
@@ -256,7 +256,7 @@ const Form = () => {
                                 "&:hover" : {
                                     cursor: "pointer",
                                     color: palette.primary.light,
-                                }
+                                },
                             }}
                         >
                             {isLogin 

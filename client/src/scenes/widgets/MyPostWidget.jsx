@@ -63,7 +63,7 @@ const MyPostWidget = ({ picturePath }) => {
                 <UserImage image={picturePath} />
                 <InputBase 
                     placeholder="What's on your mind Today..."
-                    onChange={(e) => setPosts(e.target.value)}
+                    onChange={(e) => setPost(e.target.value)}
                     value={post}
                     sx={{
                         width: "100%",
