@@ -25,7 +25,7 @@ const FriendListWidget = ({ userId }) => {
 
     useEffect(() => {
         getFriends();
-    }, []) 
+    });
     return (
         <WidgetWrapper>
             <Typography
