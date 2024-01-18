@@ -103,7 +103,7 @@ import {
             </Typography>
           </FlexBetween>
           <FlexBetween>
-            <Typography color={medium}>Impressions of your post</Typography>
+            <Typography color={medium}>Post Impressions</Typography>
             <Typography color={main} fontWeight="500">
               {impressions}
             </Typography>
@@ -138,7 +138,7 @@ import {
                 <Typography color={main} fontWeight="500">
                   Linkedin
                 </Typography>
-                <Typography color={medium}>Network Platform</Typography>
+                <Typography color={medium}>Professional Connection</Typography>
               </Box>
             </FlexBetween>
             <EditOutlined sx={{ color: main }} />
